@@ -1,0 +1,21 @@
+{
+  "name": "octree",
+  "version": "0.0.0",
+  "description": "Octree",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jaz303/node-octree.git"
+  },
+  "keywords": [
+    "octree",
+    "spatial",
+    "data-structure"
+  ],
+  "author": "Jason Frame <jason@onehackoranother.com> (http://jasonframe.co.uk)",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
