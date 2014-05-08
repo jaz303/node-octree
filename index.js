@@ -41,7 +41,7 @@ Octree.prototype.insert = function(x, y, z, data) {
 
             this.type = PARENT;
             this.data = children;
-
+            this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
         }
     } else {
         this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
