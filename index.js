@@ -21,7 +21,8 @@ Octree.prototype.insert = function(x, y, z, data) {
     // FIXME: this function is letting you insert something in an already occupied place (two things in the same exact coordinates), which causes problems along the road
 
     // check if insertion is within boundaries, return false otherwise
-    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) (this.oz + this.hz < z) || (this.oz - this.hz > z)) return false;
+    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z)) 
+        return false;
 
     if (this.type === LEAF) {
         if (this.data.length < MAX_ITEMS) {
