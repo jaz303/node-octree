@@ -56,7 +56,21 @@ Octree.prototype.insert = function(x, y, z, data) {
     return true;
 }
 
+Octree.prototype.occupied = function(x, y, z) {
+    // returns true if there's a point in these coordinates, false otherwise
+
+	// if coordinates are out of space, there's surely no point there
+    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z)) 
+	    return false;
+	// if this is empty...
+	if (this.data.length === 0) return false;
+	// find the relevant node:
+	// TODO: implement
+}
+
 Octree.prototype.nearestNeighbour = function(x, y, z) {
+    // Since this gets coordinates, I'm assuming we want to return false if there's no point in this coordinates
+	// TODO: implement
 
 }
 
