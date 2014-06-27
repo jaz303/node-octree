@@ -1,14 +1,18 @@
 var octree = require('../');
 var inspect = require('util').inspect;
 
+function r() {
+    return (Math.random() * 2) - 1;
+}
+
 (function testInsertions() {
 
     var o = octree();
-	var x = 10;
+    var x = 100000;
 
     // insert x objects
     for (var i = 0; i < x; ++i) {
-        o.insert(i, i, i, i);
+        o.insert(r(), r(), r(), i);
     }
 
     function objects_count(node) {
