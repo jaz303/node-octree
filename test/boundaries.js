@@ -1,5 +1,4 @@
 var octree = require('../');
-var inspect = require('util').inspect;
 
 function r() {
     return (Math.random() * 2) - 1;

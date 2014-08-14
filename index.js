@@ -17,8 +17,9 @@ function Octree(ox, oy, oz, hx, hy, hz) {
 
 }
 
+// TODO: validate all the return values for all 'insert' calls
 Octree.prototype.insert = function(x, y, z, data) {
-    // FIXME: this function is letting you insert something in an already occupied place (two things in the same exact coordinates), which causes problems along the road
+	if (this.occupied(x,y,z)) return false;
 
     // check if insertion is within boundaries, return false otherwise
     if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z)) 
@@ -62,14 +63,27 @@ Octree.prototype.occupied = function(x, y, z) {
 	// if coordinates are out of space, there's surely no point there
     if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z)) 
 	    return false;
+
 	// if this is empty...
 	if (this.data.length === 0) return false;
+
 	// find the relevant node:
-	// TODO: implement
+	if (this.type === LEAF) {
+		for (var d=0; d<this.data.length; d++) {
+			if ((this.data[d].x==x) && (this.data[d].y==y) && (this.data[d].z==z)) return true;
+		}
+	} else {
+		for (var d=0; d<this.data.length; d++) {
+	 		if (this.data[d].occupied(x,y,z)) return true;
+		}
+	}
+	return false;
 }
 
 Octree.prototype.nearestNeighbour = function(x, y, z) {
     // Since this gets coordinates, I'm assuming we want to return false if there's no point in this coordinates
+	if (!this.occupied(x,y,z)) return false;
+
 	// TODO: implement
 
 }
