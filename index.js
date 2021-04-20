@@ -18,6 +18,12 @@ function Octree(ox, oy, oz, hx, hy, hz) {
 }
 
 Octree.prototype.insert = function(x, y, z, data) {
+    // FIXME: this function is letting you insert something in an already occupied place (two things in the same exact coordinates), which causes problems along the road
+
+    // check if insertion is within boundaries, return false otherwise
+    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z))
+        return false;
+
     if (this.type === LEAF) {
         if (this.data.length < MAX_ITEMS) {
             this.data.push({x: x, y: y, z: z, data: data});
@@ -41,11 +47,13 @@ Octree.prototype.insert = function(x, y, z, data) {
 
             this.type = PARENT;
             this.data = children;
-
+            this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
         }
     } else {
         this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
     }
+
+    return true;
 }
 
 Octree.prototype.nearestNeighbour = function(x, y, z) {
