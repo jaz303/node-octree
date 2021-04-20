@@ -17,7 +17,14 @@ function Octree(ox, oy, oz, hx, hy, hz) {
 
 }
 
+// TODO: validate all the return values for all 'insert' calls
 Octree.prototype.insert = function(x, y, z, data) {
+    if (this.occupied(x,y,z)) return false;
+
+    // check if insertion is within boundaries, return false otherwise
+    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z))
+        return false;
+
     if (this.type === LEAF) {
         if (this.data.length < MAX_ITEMS) {
             this.data.push({x: x, y: y, z: z, data: data});
@@ -41,11 +48,36 @@ Octree.prototype.insert = function(x, y, z, data) {
 
             this.type = PARENT;
             this.data = children;
-
+            this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
         }
     } else {
         this.data[this._indexForPoint(x, y, z)].insert(x, y, z, data);
     }
+
+    return true;
+}
+
+Octree.prototype.occupied = function(x, y, z) {
+    // returns true if there's a point in these coordinates, false otherwise
+
+    // if coordinates are out of space, there's surely no point there
+    if ((this.ox + this.hx < x) || (this.ox - this.hx > x) || (this.oy + this.hy < y) || (this.oy - this.hy > y) || (this.oz + this.hz < z) || (this.oz - this.hz > z))
+        return false;
+
+    // if this is empty...
+    if (this.data.length === 0) return false;
+
+    // find the relevant node:
+    if (this.type === LEAF) {
+        for (var d=0; d<this.data.length; d++) {
+            if ((this.data[d].x==x) && (this.data[d].y==y) && (this.data[d].z==z)) return true;
+        }
+    } else {
+        for (var d=0; d<this.data.length; d++) {
+            if (this.data[d].occupied(x,y,z)) return true;
+        }
+    }
+    return false;
 }
 
 Octree.prototype.nearestNeighbour = function(x, y, z) {
